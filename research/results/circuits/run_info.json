@@ -1,0 +1,40 @@
+{
+  "experiment": "Circuit grid: every circuit setting on today's problem",
+  "snapshot": "2026-10-12",
+  "estimates": "trailing 3 years of daily prices before each date; Bayes-Stein returns, Ledoit-Wolf risk",
+  "costs": "each market's rate card, for its default amount of money split over k stocks, held one year",
+  "cash": {
+    "nifty50": 1000000.0,
+    "sp100": 100000.0
+  },
+  "investor": {
+    "k": 4,
+    "sector_cap": 1,
+    "risk_aversion": 1.0,
+    "seed": 42
+  },
+  "size": 16,
+  "depths": [
+    1,
+    2,
+    3
+  ],
+  "pairs_kept": [
+    1.0,
+    0.75,
+    0.5,
+    0.25
+  ],
+  "optimisers": [
+    "COBYLA",
+    "SPSA"
+  ],
+  "cvar_alpha": 0.25,
+  "chip": "fake IBM Brisbane (gate counts)",
+  "shots": 4096,
+  "qiskit": "2.5.2",
+  "qiskit_aer": "0.17.2",
+  "python": "3.13.0rc1",
+  "started": "2026-10-14T08:58:57",
+  "minutes": 5.9
+}

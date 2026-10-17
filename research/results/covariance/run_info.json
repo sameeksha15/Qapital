@@ -1,0 +1,32 @@
+{
+  "experiment": "Pruning vs shrinkage, walk-forward",
+  "snapshot": "2026-10-12",
+  "estimates": "trailing 3 years of daily prices before each date; Bayes-Stein returns, Ledoit-Wolf risk",
+  "costs": "each market's rate card, for its default amount of money split over k stocks, held one year",
+  "cash": {
+    "nifty50": 1000000.0,
+    "sp100": 100000.0
+  },
+  "investor": {
+    "k": 4,
+    "sector_cap": 1,
+    "risk_aversion": 1.0,
+    "seed": 42
+  },
+  "versions": [
+    "sample",
+    "ledoit-wolf",
+    "pruned 75%",
+    "pruned 50%",
+    "pruned 25%"
+  ],
+  "window_years": 3,
+  "choice": "the best portfolio by the shared score: brute force when the list allows (NIFTY 50), otherwise simulated annealing (S&P 100)",
+  "judged_on": "the 252 trading days after each date; equal money, no rebalancing",
+  "dates": "first trading day of every quarter from 2019 with a full year after it",
+  "qiskit": "2.5.2",
+  "qiskit_aer": "0.17.2",
+  "python": "3.13.0rc1",
+  "started": "2026-10-14T08:58:28",
+  "minutes": 0.5
+}
