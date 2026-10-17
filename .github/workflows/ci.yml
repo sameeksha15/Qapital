@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    name: Python (lint, types, tests)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - name: Install (exact versions from uv.lock)
+        run: uv sync --locked --extra dev --extra api
+      - name: Lint
+        run: uv run ruff check . && uv run ruff format --check .
+      - name: Types
+        run: uv run mypy
+      - name: Tests
+        run: uv run pytest --cov=qapital --cov-report=term-missing:skip-covered
+
+  web:
+    name: Website (types, tests, build, browser)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - name: Types match the API
+        run: npm run gen:api && git diff --exit-code src/api/schema.d.ts
+      - name: Types
+        run: npm run typecheck
+      - name: Unit and component tests
+        run: npm test
+      - name: Build
+        run: npm run build
+      - name: Browser smoke tests (saved runs)
+        run: npx playwright install --with-deps chromium && npm run e2e
+
+  docker:
+    name: API image (builds and starts)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: docker build -t qapital-api .
+      - name: Start and answer /health (no prices in the image; they are downloaded in production)
+        run: |
+          docker run -d --name api -p 7860:7860 qapital-api
+          for i in $(seq 1 30); do curl -fsS localhost:7860/health && exit 0; sleep 2; done
+          docker logs api; exit 1

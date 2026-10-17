@@ -1,0 +1,36 @@
+name: Data snapshot
+
+# Nightly after both markets have closed (NSE ~10:00 UTC, NYSE ~20:00 UTC): download, check, publish.
+on:
+  schedule:
+    - cron: "30 1 * * 2-6"   # 01:30 UTC, Tuesday–Saturday (covers Monday–Friday sessions)
+  workflow_dispatch:
+
+permissions:
+  contents: write   # to upload release files
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - name: Install (exact versions from uv.lock)
+        run: uv sync --locked --extra pipeline --extra dev
+      - name: Download and check prices
+        run: uv run python -m pipeline.ingest
+      - name: Data tests
+        run: uv run pytest tests/test_data_pipeline.py
+      - name: Publish to the "data" release (dated files + latest)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          folder=$(ls -d data/snapshots/*/ | sort | tail -1)
+          day=$(basename "$folder")
+          cp "$folder/prices.parquet" "prices-$day.parquet"
+          cp "$folder/manifest.json" "manifest-$day.json"
+          echo "{\"snapshot\": \"$day\"}" > latest.json
+          gh release view data >/dev/null 2>&1 || gh release create data --title "Price snapshots" --notes "Nightly validated price snapshots. latest.json names the newest."
+          gh release upload data "prices-$day.parquet" "manifest-$day.json" latest.json --clobber
