@@ -1,0 +1,10 @@
+{
+  "status": "error",
+  "progress": null,
+  "result": null,
+  "error": "Pick 16 or fewer stocks for this setting.",
+  "kind": "optimise",
+  "backtest": null,
+  "hardware": null,
+  "cached": false
+}
