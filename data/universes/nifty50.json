@@ -1,0 +1,272 @@
+{
+  "id": "nifty50",
+  "name": "NIFTY 50",
+  "country": "India",
+  "currency": "INR",
+  "benchmark": {
+    "ticker": "^NSEI",
+    "name": "NIFTY 50 index"
+  },
+  "risk_free": {
+    "kind": "constant",
+    "ticker": null,
+    "rate": 0.052599,
+    "source": "RBI 91-day T-bill auction cut-off yield 5.2599%, press release 2 Sep 2026: https://rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=63500",
+    "note": "India has no free daily T-bill series; update this from the latest RBI auction result."
+  },
+  "cost_model": "india_delivery",
+  "list_source": "https://archives.nseindia.com/content/indices/ind_nifty50list.csv",
+  "list_as_of": "2026-10-13",
+  "stocks": [
+    {
+      "ticker": "ADANIENT.NS",
+      "name": "Adani Enterprises Ltd.",
+      "sector": "Metals & Mining"
+    },
+    {
+      "ticker": "ADANIPORTS.NS",
+      "name": "Adani Ports and Special Economic Zone Ltd.",
+      "sector": "Services"
+    },
+    {
+      "ticker": "APOLLOHOSP.NS",
+      "name": "Apollo Hospitals Enterprise Ltd.",
+      "sector": "Healthcare"
+    },
+    {
+      "ticker": "ASIANPAINT.NS",
+      "name": "Asian Paints Ltd.",
+      "sector": "Consumer Durables"
+    },
+    {
+      "ticker": "AXISBANK.NS",
+      "name": "Axis Bank Ltd.",
+      "sector": "Financial Services"
+    },
+    {
+      "ticker": "BSE.NS",
+      "name": "BSE Ltd.",
+      "sector": "Financial Services"
+    },
+    {
+      "ticker": "BAJAJ-AUTO.NS",
+      "name": "Bajaj Auto Ltd.",
+      "sector": "Automobile and Auto Components"
+    },
+    {
+      "ticker": "BAJFINANCE.NS",
+      "name": "Bajaj Finance Ltd.",
+      "sector": "Financial Services"
+    },
+    {
+      "ticker": "BAJAJFINSV.NS",
+      "name": "Bajaj Finserv Ltd.",
+      "sector": "Financial Services"
+    },
+    {
+      "ticker": "BEL.NS",
+      "name": "Bharat Electronics Ltd.",
+      "sector": "Capital Goods"
+    },
+    {
+      "ticker": "BHARTIARTL.NS",
+      "name": "Bharti Airtel Ltd.",
+      "sector": "Telecommunication"
+    },
+    {
+      "ticker": "CIPLA.NS",
+      "name": "Cipla Ltd.",
+      "sector": "Healthcare"
+    },
+    {
+      "ticker": "COALINDIA.NS",
+      "name": "Coal India Ltd.",
+      "sector": "Oil Gas & Consumable Fuels"
+    },
+    {
+      "ticker": "DRREDDY.NS",
+      "name": "Dr. Reddy's Laboratories Ltd.",
+      "sector": "Healthcare"
+    },
+    {
+      "ticker": "EICHERMOT.NS",
+      "name": "Eicher Motors Ltd.",
+      "sector": "Automobile and Auto Components"
+    },
+    {
+      "ticker": "ETERNAL.NS",
+      "name": "Eternal Ltd.",
+      "sector": "Consumer Services"
+    },
+    {
+      "ticker": "GRASIM.NS",
+      "name": "Grasim Industries Ltd.",
+      "sector": "Construction Materials"
+    },
+    {
+      "ticker": "HCLTECH.NS",
+      "name": "HCL Technologies Ltd.",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "HDFCBANK.NS",
+      "name": "HDFC Bank Ltd.",
+      "sector": "Financial Services"
+    },
+    {
+      "ticker": "HDFCLIFE.NS",
+      "name": "HDFC Life Insurance Company Ltd.",
+      "sector": "Financial Services"
+    },
+    {
+      "ticker": "HINDALCO.NS",
+      "name": "Hindalco Industries Ltd.",
+      "sector": "Metals & Mining"
+    },
+    {
+      "ticker": "HINDUNILVR.NS",
+      "name": "Hindustan Unilever Ltd.",
+      "sector": "Fast Moving Consumer Goods"
+    },
+    {
+      "ticker": "ICICIBANK.NS",
+      "name": "ICICI Bank Ltd.",
+      "sector": "Financial Services"
+    },
+    {
+      "ticker": "ITC.NS",
+      "name": "ITC Ltd.",
+      "sector": "Fast Moving Consumer Goods"
+    },
+    {
+      "ticker": "INFY.NS",
+      "name": "Infosys Ltd.",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "INDIGO.NS",
+      "name": "InterGlobe Aviation Ltd.",
+      "sector": "Services"
+    },
+    {
+      "ticker": "JSWSTEEL.NS",
+      "name": "JSW Steel Ltd.",
+      "sector": "Metals & Mining"
+    },
+    {
+      "ticker": "JIOFIN.NS",
+      "name": "Jio Financial Services Ltd.",
+      "sector": "Financial Services"
+    },
+    {
+      "ticker": "KOTAKBANK.NS",
+      "name": "Kotak Mahindra Bank Ltd.",
+      "sector": "Financial Services"
+    },
+    {
+      "ticker": "LT.NS",
+      "name": "Larsen & Toubro Ltd.",
+      "sector": "Construction"
+    },
+    {
+      "ticker": "M&M.NS",
+      "name": "Mahindra & Mahindra Ltd.",
+      "sector": "Automobile and Auto Components"
+    },
+    {
+      "ticker": "MARUTI.NS",
+      "name": "Maruti Suzuki India Ltd.",
+      "sector": "Automobile and Auto Components"
+    },
+    {
+      "ticker": "MAXHEALTH.NS",
+      "name": "Max Healthcare Institute Ltd.",
+      "sector": "Healthcare"
+    },
+    {
+      "ticker": "NTPC.NS",
+      "name": "NTPC Ltd.",
+      "sector": "Power"
+    },
+    {
+      "ticker": "NESTLEIND.NS",
+      "name": "Nestle India Ltd.",
+      "sector": "Fast Moving Consumer Goods"
+    },
+    {
+      "ticker": "ONGC.NS",
+      "name": "Oil & Natural Gas Corporation Ltd.",
+      "sector": "Oil Gas & Consumable Fuels"
+    },
+    {
+      "ticker": "POWERGRID.NS",
+      "name": "Power Grid Corporation of India Ltd.",
+      "sector": "Power"
+    },
+    {
+      "ticker": "RELIANCE.NS",
+      "name": "Reliance Industries Ltd.",
+      "sector": "Oil Gas & Consumable Fuels"
+    },
+    {
+      "ticker": "SBILIFE.NS",
+      "name": "SBI Life Insurance Company Ltd.",
+      "sector": "Financial Services"
+    },
+    {
+      "ticker": "SHRIRAMFIN.NS",
+      "name": "Shriram Finance Ltd.",
+      "sector": "Financial Services"
+    },
+    {
+      "ticker": "SBIN.NS",
+      "name": "State Bank of India",
+      "sector": "Financial Services"
+    },
+    {
+      "ticker": "SUNPHARMA.NS",
+      "name": "Sun Pharmaceutical Industries Ltd.",
+      "sector": "Healthcare"
+    },
+    {
+      "ticker": "TCS.NS",
+      "name": "Tata Consultancy Services Ltd.",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TATACONSUM.NS",
+      "name": "Tata Consumer Products Ltd.",
+      "sector": "Fast Moving Consumer Goods"
+    },
+    {
+      "ticker": "TMPV.NS",
+      "name": "Tata Motors Passenger Vehicles Ltd.",
+      "sector": "Automobile and Auto Components"
+    },
+    {
+      "ticker": "TATASTEEL.NS",
+      "name": "Tata Steel Ltd.",
+      "sector": "Metals & Mining"
+    },
+    {
+      "ticker": "TECHM.NS",
+      "name": "Tech Mahindra Ltd.",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "TITAN.NS",
+      "name": "Titan Company Ltd.",
+      "sector": "Consumer Durables"
+    },
+    {
+      "ticker": "TRENT.NS",
+      "name": "Trent Ltd.",
+      "sector": "Consumer Services"
+    },
+    {
+      "ticker": "ULTRACEMCO.NS",
+      "name": "UltraTech Cement Ltd.",
+      "sector": "Construction Materials"
+    }
+  ]
+}
