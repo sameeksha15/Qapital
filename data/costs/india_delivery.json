@@ -1,0 +1,18 @@
+{
+  "id": "india_delivery",
+  "name": "NSE equity delivery, discount broker",
+  "currency": "INR",
+  "as_of": "2026-10-13",
+  "sources": [
+    "https://zerodha.com/charges (equity delivery rate card, accessed 2026-10-13)"
+  ],
+  "gst": 0.18,
+  "charges": [
+    {"name": "Brokerage", "side": "both", "rate": 0.0, "gst": true},
+    {"name": "Securities Transaction Tax (STT)", "side": "both", "rate": 0.001},
+    {"name": "NSE transaction charge", "side": "both", "rate": 0.0000307, "gst": true},
+    {"name": "SEBI turnover fee (Rs 10 per crore)", "side": "both", "rate": 0.000001, "gst": true},
+    {"name": "Stamp duty", "side": "buy", "rate": 0.00015},
+    {"name": "Depository (DP) charge, per stock sold, incl. GST", "side": "sell", "per_order": 15.34}
+  ]
+}

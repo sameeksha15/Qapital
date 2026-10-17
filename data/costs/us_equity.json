@@ -1,0 +1,17 @@
+{
+  "id": "us_equity",
+  "name": "US equities, commission-free online broker",
+  "currency": "USD",
+  "as_of": "2026-10-13",
+  "sources": [
+    "https://www.sec.gov/rules-regulations/fee-rate-advisories/2026-2 (Section 31 fee, effective 2026-04-04)",
+    "https://www.finra.org/rules-guidance/rule-filings/sr-finra-2024-019/fee-adjustment-schedule (TAF 2026)",
+    "Note: SR-FINRA-2026-021 proposes pausing the TAF for 2026-10-01 to 2026-12-31; not applied here until confirmed"
+  ],
+  "gst": 0.0,
+  "charges": [
+    {"name": "Commission", "side": "both", "rate": 0.0},
+    {"name": "SEC Section 31 fee ($20.60 per million sold)", "side": "sell", "rate": 0.0000206},
+    {"name": "FINRA Trading Activity Fee", "side": "sell", "per_share": 0.000195, "max_per_order": 9.79}
+  ]
+}
