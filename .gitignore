@@ -34,3 +34,6 @@ data/snapshots/
 
 # The API's local result store (SQLite)
 data/qapital.db
+
+# Server settings on the deployment VM (written by deploy/oracle/setup.sh)
+deploy/oracle/.env

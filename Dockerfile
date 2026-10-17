@@ -1,4 +1,4 @@
-# The Qapital API as one container. Hugging Face Spaces runs it as user 1000 on port 7860.
+# The Qapital API as one container, listening on port 7860 (in production behind Caddy: deploy/oracle).
 #   docker build -t qapital-api .
 #   docker run -p 7860:7860 -e QAPITAL_SNAPSHOT_REPO=<owner>/<repo> -e QAPITAL_CORS_ORIGINS=http://localhost:5173 qapital-api
 # Prices are not in the image: at start-up the API downloads the newest snapshot from the repo's "data" release

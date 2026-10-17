@@ -72,8 +72,9 @@ web/        React + TypeScript, React Router, TanStack Query, Plotly; API types 
 research/   experiments over dated problems and their raw results
 ```
 
-The API runs as a Docker container on Hugging Face Spaces and keeps results in Postgres; the website is on Vercel and
-shows saved runs while the free server wakes up. CI runs ruff, mypy and 180+ Python tests, the website's type check,
+The API runs serverless on Modal (`deploy/modal`; a single-VM setup with Docker and Caddy is in `deploy/oracle`) and
+keeps results in Postgres; the website is on Vercel and shows saved runs whenever the API is starting or can't be
+reached. CI runs ruff, mypy and 180+ Python tests, the website's type check,
 unit tests and browser smoke tests, and builds the Docker image. Every push to `main` that passes CI redeploys
 the API; a nightly job publishes fresh prices, which the API picks up without a restart.
 

@@ -63,7 +63,7 @@ export function RunningPage() {
         )}
         {waiting && (
           <p className="mt-8 max-w-xl text-sm text-navy-muted">
-            {connection === "waking" ? "The engine is waking up; this page follows the run as soon as it answers." : "The engine isn't reachable right now."}
+            {connection === "waking" ? "The engine is starting; this page follows the run as soon as it answers." : "The engine isn't reachable right now."}
           </p>
         )}
         <Button variant="onDark" className="mt-12" onClick={async () => {
