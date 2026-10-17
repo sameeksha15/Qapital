@@ -1,0 +1,15 @@
+{
+  "status": "running",
+  "progress": {
+    "stage": "Tuning circuit",
+    "step": 12,
+    "total": 30,
+    "elapsed_s": null
+  },
+  "result": null,
+  "error": null,
+  "kind": "optimise",
+  "backtest": null,
+  "hardware": null,
+  "cached": false
+}

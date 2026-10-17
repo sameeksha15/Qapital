@@ -1,0 +1,378 @@
+{
+  "status": "done",
+  "progress": {
+    "stage": "Done",
+    "step": 1,
+    "total": 1,
+    "elapsed_s": null
+  },
+  "result": {
+    "quantum": {
+      "chosen": [
+        "BANK2",
+        "FMCG"
+      ],
+      "score": -0.138,
+      "expected_return": 0.11000000000000001,
+      "risk": 0.1341640786499874,
+      "p_optimal": 0.309326171875,
+      "feasible_rate": 0.852294921875,
+      "lift_over_random": 1.546630859375,
+      "approx_ratio": 0.5453016493055554,
+      "num_qubits": 4,
+      "num_slack_qubits": 0,
+      "two_qubit_gates": 79,
+      "circuit_depth": 387,
+      "convergence": [
+        -0.138,
+        -0.138,
+        -0.138,
+        -0.138,
+        -0.138,
+        -0.13363244910789646,
+        -0.13347029167362082,
+        -0.13475881633408232,
+        -0.13534351392650878,
+        -0.138,
+        -0.138,
+        -0.138,
+        -0.138,
+        -0.138,
+        -0.138,
+        -0.138,
+        -0.138,
+        -0.138,
+        -0.138,
+        -0.138,
+        -0.138
+      ],
+      "top_samples": [
+        {
+          "stocks": [
+            "BANK2",
+            "FMCG"
+          ],
+          "count": 1267,
+          "score": -0.138,
+          "valid": true
+        },
+        {
+          "stocks": [
+            "BANK2",
+            "TECH"
+          ],
+          "count": 770,
+          "score": -0.13,
+          "valid": true
+        },
+        {
+          "stocks": [
+            "BANK1",
+            "FMCG"
+          ],
+          "count": 608,
+          "score": -0.126,
+          "valid": true
+        },
+        {
+          "stocks": [
+            "TECH",
+            "FMCG"
+          ],
+          "count": 605,
+          "score": -0.13,
+          "valid": true
+        },
+        {
+          "stocks": [
+            "BANK1",
+            "BANK2"
+          ],
+          "count": 605,
+          "score": -0.09999999999999999,
+          "valid": false
+        },
+        {
+          "stocks": [
+            "BANK1",
+            "TECH"
+          ],
+          "count": 241,
+          "score": -0.12000000000000001,
+          "valid": true
+        }
+      ],
+      "layer_probs": [
+        [
+          0.1666666666666667,
+          0.16666666666666666,
+          0.16666666666666666,
+          0.1666666666666667,
+          0.16666666666666666
+        ],
+        [
+          0.37170539272547415,
+          0.1703338178656616,
+          0.0618895798578271,
+          0.15240325019571682,
+          0.24242837690150099
+        ],
+        [
+          0.2986015305321893,
+          0.19314009390912573,
+          0.15318049959388452,
+          0.14139703672175657,
+          0.05905288219695186
+        ]
+      ],
+      "layer_labels": [
+        "BANK2, FMCG",
+        "BANK2, TECH",
+        "TECH, FMCG",
+        "BANK1, FMCG",
+        "BANK1, TECH"
+      ],
+      "noise": {
+        "chip": "FakeBrisbane",
+        "ideal_p_optimal": 0.309326171875,
+        "noisy_p_optimal": 0.172119140625,
+        "ideal_approx_ratio": 0.5453016493055554,
+        "noisy_approx_ratio": 0.3370496961805554,
+        "ideal_feasible_rate": 0.852294921875,
+        "noisy_feasible_rate": 0.578125,
+        "postselected_share": 0.6669921875,
+        "postselected_p_optimal": 0.25805270863836016,
+        "postselected_approx_ratio": 0.5053278021799249,
+        "postselected_feasible_rate": 0.8667642752562226,
+        "readout_error": 0.017669677734375,
+        "mitigated_p_optimal": 0.18139959705992903,
+        "mitigated_approx_ratio": 0.354683094604983,
+        "mitigated_feasible_rate": 0.6079073959260963,
+        "mitigated_postselected_p_optimal": 0.2589227252482667,
+        "mitigated_postselected_approx_ratio": 0.5062608459062413,
+        "mitigated_postselected_feasible_rate": 0.8677033587883952
+      },
+      "shortlist": null,
+      "warm_start_alone": null
+    },
+    "report_card": [
+      {
+        "solver": "QAOA",
+        "found_best": true,
+        "score": -0.138,
+        "runtime_s": 41.8,
+        "hit_rate": null,
+        "chosen": [
+          "BANK2",
+          "FMCG"
+        ],
+        "expected_return": 0.11000000000000001,
+        "risk": 0.1341640786499874,
+        "universe": "shortlist"
+      },
+      {
+        "solver": "Brute force",
+        "found_best": true,
+        "score": -0.138,
+        "runtime_s": 0.001,
+        "hit_rate": null,
+        "chosen": [
+          "BANK2",
+          "FMCG"
+        ],
+        "expected_return": 0.11000000000000001,
+        "risk": 0.1341640786499874,
+        "universe": "full"
+      },
+      {
+        "solver": "Simulated annealing",
+        "found_best": true,
+        "score": -0.138,
+        "runtime_s": 0.9,
+        "hit_rate": 1.0,
+        "chosen": [
+          "BANK2",
+          "FMCG"
+        ],
+        "expected_return": 0.11000000000000001,
+        "risk": 0.1341640786499874,
+        "universe": "full"
+      },
+      {
+        "solver": "Relaxation + rounding",
+        "found_best": true,
+        "score": -0.138,
+        "runtime_s": 0.03,
+        "hit_rate": null,
+        "chosen": [
+          "BANK2",
+          "FMCG"
+        ],
+        "expected_return": 0.11000000000000001,
+        "risk": 0.1341640786499874,
+        "universe": "full"
+      },
+      {
+        "solver": "Random guessing",
+        "found_best": true,
+        "score": -0.138,
+        "runtime_s": 0.002,
+        "hit_rate": 1.0,
+        "chosen": [
+          "BANK2",
+          "FMCG"
+        ],
+        "expected_return": 0.11000000000000001,
+        "risk": 0.1341640786499874,
+        "universe": "full"
+      }
+    ],
+    "frontier": {
+      "continuous": [
+        [
+          0.1,
+          0.09
+        ],
+        [
+          0.11,
+          0.105
+        ],
+        [
+          0.13,
+          0.12
+        ],
+        [
+          0.16,
+          0.135
+        ]
+      ],
+      "discrete": [
+        [
+          0.1,
+          0.09
+        ],
+        [
+          0.127,
+          0.11
+        ],
+        [
+          0.15,
+          0.12
+        ]
+      ],
+      "picks": [
+        {
+          "solver": "QAOA",
+          "risk": 0.1341640786499874,
+          "ret": 0.11000000000000001
+        },
+        {
+          "solver": "Brute force",
+          "risk": 0.1341640786499874,
+          "ret": 0.11000000000000001
+        }
+      ]
+    },
+    "backtest": {
+      "portfolio": {
+        "ret": 0.11,
+        "volatility": 0.13,
+        "sharpe": 0.35
+      },
+      "index": {
+        "ret": 0.08,
+        "volatility": 0.15,
+        "sharpe": 0.1
+      },
+      "equal_weight_all": {
+        "ret": 0.09,
+        "volatility": 0.12,
+        "sharpe": 0.2
+      }
+    },
+    "pruning": [
+      {
+        "kept": 1.0,
+        "gates": 79,
+        "ideal": 1.546630859375,
+        "noisy": 0.860595703125,
+        "noisy_postselected": 1.2902635431918008
+      },
+      {
+        "kept": 0.75,
+        "gates": 71,
+        "ideal": 1.580810546875,
+        "noisy": 0.88134765625,
+        "noisy_postselected": 1.2957645369705673
+      },
+      {
+        "kept": 0.5,
+        "gates": 69,
+        "ideal": 1.658935546875,
+        "noisy": 0.938720703125,
+        "noisy_postselected": 1.3562610229276895
+      },
+      {
+        "kept": 0.25,
+        "gates": 56,
+        "ideal": 0.426025390625,
+        "noisy": 0.362548828125,
+        "noisy_postselected": 0.5111876075731497
+      }
+    ],
+    "verdict": "EXAMPLE DATA. QAOA found the best portfolio, more often than random guessing; brute force was faster at this size.",
+    "optimal": {
+      "best": {
+        "stocks": [
+          "BANK2",
+          "FMCG"
+        ],
+        "score": -0.138,
+        "expected_return": 0.11000000000000001,
+        "risk": 0.1341640786499874
+      },
+      "best_is_exact": true,
+      "best_found_by": "Brute force",
+      "shortlist_best": {
+        "stocks": [
+          "BANK2",
+          "FMCG"
+        ],
+        "score": -0.138,
+        "expected_return": 0.11000000000000001,
+        "risk": 0.1341640786499874
+      },
+      "num_valid_shortlist": 5,
+      "shortlisting_gap": 0.0,
+      "relaxation_lower_bound": -0.14800000000000002,
+      "num_valid": null
+    },
+    "dataset": {
+      "source": "scripts/toy_data.py (made-up)",
+      "returns": "simple",
+      "estimation_window": [
+        "2021-01-01",
+        "2024-12-31"
+      ],
+      "test_window": [
+        "2025-01-01",
+        "2025-12-31"
+      ],
+      "fee": 0.005,
+      "safe_rate": 0.065,
+      "num_stocks": 4,
+      "num_sectors": 3
+    },
+    "result_id": null,
+    "estimation": null,
+    "costs": null,
+    "allocations": null,
+    "request": null,
+    "stocks": null
+  },
+  "error": null,
+  "kind": "optimise",
+  "backtest": null,
+  "hardware": null,
+  "cached": false
+}
