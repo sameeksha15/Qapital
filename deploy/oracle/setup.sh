@@ -58,7 +58,8 @@ For automatic deploys, add these in GitHub -> Settings -> Secrets and variables 
   secret    ORACLE_SSH_KEY  = everything printed below, including the BEGIN and END lines
   variable  ORACLE_HOST     = $ip
   variable  ORACLE_USER     = $(whoami)
-  variable  API_HOST        = $host
+  variable  API_URL         = https://$host
+  variable  API_HOSTING     = oracle
 Repo folder on this VM: $repo
 
 ----- private key (copy it into the GitHub secret, then clear your terminal) -----

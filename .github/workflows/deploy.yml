@@ -1,7 +1,10 @@
 name: Deploy API
 
-# After CI passes on main, update the API on the Oracle Cloud VM (deploy/oracle) and wait until it answers.
-# Needs: secret ORACLE_SSH_KEY, variables ORACLE_HOST, ORACLE_USER and API_HOST (all printed by deploy/oracle/setup.sh).
+# After CI passes on main, update the API where it is hosted and wait until it answers with prices.
+# The repository variable API_HOSTING picks the host:
+#   modal   deploy/modal/app.py. Needs secrets MODAL_TOKEN_ID, MODAL_TOKEN_SECRET and variable API_URL.
+#   oracle  deploy/oracle (a VM). Needs secret ORACLE_SSH_KEY and variables ORACLE_HOST, ORACLE_USER, API_URL
+#           (all printed by deploy/oracle/setup.sh).
 # The website deploys itself: Vercel watches the same branch (web/vercel.json).
 on:
   workflow_run:
@@ -15,9 +18,25 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  vm:
+  modal:
     if: >-
-      vars.ORACLE_HOST != '' &&
+      vars.API_HOSTING == 'modal' &&
+      (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - name: Deploy to Modal
+        env:
+          MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+          MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+        run: uv run --locked --extra api --with modal==1.6.0 modal deploy deploy/modal/app.py
+
+  oracle:
+    if: >-
+      vars.API_HOSTING == 'oracle' &&
       (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     steps:
@@ -30,13 +49,19 @@ jobs:
           install -m 600 /dev/null key && printf '%s\n' "$SSH_KEY" > key
           ssh -i key -o StrictHostKeyChecking=accept-new "$USER@$HOST" \
             'cd ~/Qapital && git pull --ff-only && sudo docker compose -f deploy/oracle/compose.yml up -d --build && sudo docker image prune -f'
+
+  check:
+    needs: [modal, oracle]
+    if: always() && (needs.modal.result == 'success' || needs.oracle.result == 'success')
+    runs-on: ubuntu-latest
+    steps:
       - name: Wait until the API answers with prices
         env:
-          API_HOST: ${{ vars.API_HOST }}
+          API_URL: ${{ vars.API_URL }}
         run: |
           for i in $(seq 1 40); do
-            body=$(curl -fsS "https://$API_HOST/health" || true)
+            body=$(curl -fsS "$API_URL/health" || true)
             if echo "$body" | grep -q '"snapshot":"20'; then echo "live: $body"; exit 0; fi
             sleep 15
           done
-          echo "The API didn't answer at https://$API_HOST/health within 10 minutes (last answer: $body)"; exit 1
+          echo "The API didn't answer at $API_URL/health within 10 minutes (last answer: $body)"; exit 1
