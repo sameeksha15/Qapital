@@ -1,0 +1,2957 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Qapital API",
+    "description": "Quantum-assisted portfolio optimisation (QAOA), benchmarked honestly against classical methods.",
+    "version": "0.2.0.dev0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/markets": {
+      "get": {
+        "summary": "Markets",
+        "operationId": "markets_markets_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarketList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/markets/{market}/stocks": {
+      "get": {
+        "summary": "Market Stocks",
+        "operationId": "market_stocks_markets__market__stocks_get",
+        "parameters": [
+          {
+            "name": "market",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Market"
+            }
+          },
+          {
+            "name": "estimator",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "historical",
+                "shrunk",
+                "shrunk-lw"
+              ],
+              "type": "string",
+              "default": "shrunk-lw",
+              "title": "Estimator"
+            }
+          },
+          {
+            "name": "window_years",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "default": 3.0,
+              "title": "Window Years"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockList"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/markets/{market}/correlations": {
+      "get": {
+        "summary": "Market Correlations",
+        "operationId": "market_correlations_markets__market__correlations_get",
+        "parameters": [
+          {
+            "name": "market",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Market"
+            }
+          },
+          {
+            "name": "window_years",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "default": 3.0,
+              "title": "Window Years"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Correlations"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stocks": {
+      "get": {
+        "summary": "Version 1 alias of /markets/{market}/stocks",
+        "operationId": "stocks_stocks_get",
+        "parameters": [
+          {
+            "name": "market",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "nifty50",
+              "title": "Market"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockList"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/optimise": {
+      "post": {
+        "summary": "Optimise",
+        "operationId": "optimise_optimise_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OptimiseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobCreated"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backtest": {
+      "post": {
+        "summary": "Backtest",
+        "operationId": "backtest_backtest_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BacktestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobCreated"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jobs/{job_id}": {
+      "get": {
+        "summary": "Job Status",
+        "operationId": "job_status_jobs__job_id__get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobStatus"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Cancel Job",
+        "operationId": "cancel_job_jobs__job_id__delete",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobStatus"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jobs/{job_id}/events": {
+      "get": {
+        "summary": "Job Events",
+        "description": "Live progress: a `progress` event on every change, then one `done`, `error` or `cancelled` event.",
+        "operationId": "job_events_jobs__job_id__events_get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "text/event-stream": {
+                "itemSchema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "string"
+                    },
+                    "event": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "retry": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/results/{result_id}": {
+      "get": {
+        "summary": "Stored Result",
+        "operationId": "stored_result_results__result_id__get",
+        "parameters": [
+          {
+            "name": "result_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Result Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobStatus"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data/status": {
+      "get": {
+        "summary": "Data Status",
+        "operationId": "data_status_data_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/hardware": {
+      "post": {
+        "summary": "Run Hardware",
+        "operationId": "run_hardware_admin_hardware_post",
+        "parameters": [
+          {
+            "name": "x-admin-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Admin-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HardwareRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobCreated"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Allocation": {
+        "properties": {
+          "sizing": {
+            "type": "string",
+            "enum": [
+              "equal",
+              "lowest-risk"
+            ],
+            "title": "Sizing"
+          },
+          "weights": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Weights"
+          },
+          "shares": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Shares"
+          },
+          "orders": {
+            "items": {
+              "$ref": "#/components/schemas/Order"
+            },
+            "type": "array",
+            "title": "Orders"
+          },
+          "costs": {
+            "type": "number",
+            "title": "Costs"
+          },
+          "cash_left": {
+            "type": "number",
+            "title": "Cash Left"
+          },
+          "invested": {
+            "type": "number",
+            "title": "Invested"
+          },
+          "expected_return": {
+            "type": "number",
+            "title": "Expected Return"
+          },
+          "volatility": {
+            "type": "number",
+            "title": "Volatility"
+          },
+          "sector_exposure": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Sector Exposure"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sizing",
+          "weights",
+          "shares",
+          "orders",
+          "costs",
+          "cash_left",
+          "invested",
+          "expected_return",
+          "volatility",
+          "sector_exposure"
+        ],
+        "title": "Allocation",
+        "description": "The chosen stocks turned into whole shares for the investor's money and holdings."
+      },
+      "Backtest": {
+        "properties": {
+          "portfolio": {
+            "$ref": "#/components/schemas/Stats"
+          },
+          "index": {
+            "$ref": "#/components/schemas/Stats"
+          },
+          "equal_weight_all": {
+            "$ref": "#/components/schemas/Stats"
+          }
+        },
+        "type": "object",
+        "required": [
+          "portfolio",
+          "index",
+          "equal_weight_all"
+        ],
+        "title": "Backtest"
+      },
+      "BacktestRequest": {
+        "properties": {
+          "market": {
+            "type": "string",
+            "title": "Market",
+            "default": "nifty50"
+          },
+          "tickers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tickers",
+            "description": "Stocks to choose from; empty means the whole market"
+          },
+          "settings": {
+            "$ref": "#/components/schemas/Settings"
+          },
+          "start": {
+            "type": "string",
+            "title": "Start",
+            "default": "2018-01-01"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End"
+          },
+          "frequency": {
+            "type": "string",
+            "enum": [
+              "monthly",
+              "quarterly",
+              "yearly"
+            ],
+            "title": "Frequency",
+            "default": "quarterly"
+          },
+          "capital": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Capital",
+            "default": 1000000.0
+          },
+          "estimator": {
+            "type": "string",
+            "enum": [
+              "historical",
+              "shrunk",
+              "shrunk-lw"
+            ],
+            "title": "Estimator",
+            "default": "shrunk-lw"
+          },
+          "window_years": {
+            "type": "number",
+            "maximum": 10.0,
+            "minimum": 1.0,
+            "title": "Window Years",
+            "default": 3.0
+          },
+          "horizon_years": {
+            "type": "number",
+            "maximum": 10.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Horizon Years",
+            "default": 1.0
+          },
+          "include_quantum": {
+            "type": "boolean",
+            "title": "Include Quantum",
+            "description": "Also run QAOA at every rebalance (slow)",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "settings"
+        ],
+        "title": "BacktestRequest",
+        "description": "POST /backtest: replay the strategy through history, rebalancing with only the data known at the time."
+      },
+      "BacktestResult": {
+        "properties": {
+          "market": {
+            "type": "string",
+            "title": "Market"
+          },
+          "snapshot": {
+            "type": "string",
+            "title": "Snapshot"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "start": {
+            "type": "string",
+            "title": "Start"
+          },
+          "end": {
+            "type": "string",
+            "title": "End"
+          },
+          "frequency": {
+            "type": "string",
+            "title": "Frequency"
+          },
+          "window_years": {
+            "type": "number",
+            "title": "Window Years"
+          },
+          "method": {
+            "type": "string",
+            "enum": [
+              "historical",
+              "shrunk",
+              "shrunk-lw"
+            ],
+            "title": "Method"
+          },
+          "capital": {
+            "type": "number",
+            "title": "Capital"
+          },
+          "dates": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Dates"
+          },
+          "strategies": {
+            "items": {
+              "$ref": "#/components/schemas/StrategyRun"
+            },
+            "type": "array",
+            "title": "Strategies"
+          },
+          "benchmark": {
+            "$ref": "#/components/schemas/StrategyRun"
+          },
+          "caveats": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Caveats"
+          },
+          "result_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Id"
+          },
+          "request": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BacktestRequest"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "market",
+          "snapshot",
+          "currency",
+          "start",
+          "end",
+          "frequency",
+          "window_years",
+          "method",
+          "capital",
+          "dates",
+          "strategies",
+          "benchmark",
+          "caveats"
+        ],
+        "title": "BacktestResult"
+      },
+      "Correlations": {
+        "properties": {
+          "market": {
+            "type": "string",
+            "title": "Market"
+          },
+          "snapshot": {
+            "type": "string",
+            "title": "Snapshot"
+          },
+          "window": {
+            "prefixItems": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "title": "Window"
+          },
+          "tickers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tickers"
+          },
+          "sectors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sectors"
+          },
+          "matrix": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Matrix"
+          }
+        },
+        "type": "object",
+        "required": [
+          "market",
+          "snapshot",
+          "window",
+          "tickers",
+          "sectors",
+          "matrix"
+        ],
+        "title": "Correlations",
+        "description": "GET /markets/{id}/correlations: how each pair of stocks moved together, grouped by sector."
+      },
+      "CostInfo": {
+        "properties": {
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "as_of": {
+            "type": "string",
+            "title": "As Of"
+          },
+          "sources": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sources"
+          },
+          "horizon_years": {
+            "type": "number",
+            "title": "Horizon Years"
+          },
+          "position_value": {
+            "type": "number",
+            "title": "Position Value"
+          },
+          "held": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Held"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model",
+          "currency",
+          "as_of",
+          "sources",
+          "horizon_years",
+          "position_value",
+          "held"
+        ],
+        "title": "CostInfo",
+        "description": "How trading costs entered the score."
+      },
+      "CostLine": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "amount"
+        ],
+        "title": "CostLine"
+      },
+      "DataStatus": {
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/SnapshotInfo"
+          },
+          "available": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Available"
+          },
+          "markets": {
+            "items": {
+              "$ref": "#/components/schemas/MarketStatus"
+            },
+            "type": "array",
+            "title": "Markets"
+          }
+        },
+        "type": "object",
+        "required": [
+          "snapshot",
+          "available",
+          "markets"
+        ],
+        "title": "DataStatus",
+        "description": "GET /data/status: which price snapshot is in use, and how good its data is."
+      },
+      "Dataset": {
+        "properties": {
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "returns": {
+            "type": "string",
+            "enum": [
+              "simple",
+              "log"
+            ],
+            "title": "Returns"
+          },
+          "estimation_window": {
+            "prefixItems": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "title": "Estimation Window"
+          },
+          "test_window": {
+            "anyOf": [
+              {
+                "prefixItems": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "type": "array",
+                "maxItems": 2,
+                "minItems": 2
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Test Window"
+          },
+          "fee": {
+            "type": "number",
+            "title": "Fee"
+          },
+          "safe_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Safe Rate"
+          },
+          "num_stocks": {
+            "type": "integer",
+            "title": "Num Stocks"
+          },
+          "num_sectors": {
+            "type": "integer",
+            "title": "Num Sectors"
+          }
+        },
+        "type": "object",
+        "required": [
+          "source",
+          "returns",
+          "estimation_window",
+          "fee",
+          "num_stocks",
+          "num_sectors"
+        ],
+        "title": "Dataset",
+        "description": "Where the numbers came from."
+      },
+      "Estimation": {
+        "properties": {
+          "market": {
+            "type": "string",
+            "title": "Market"
+          },
+          "snapshot": {
+            "type": "string",
+            "title": "Snapshot"
+          },
+          "window": {
+            "prefixItems": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "title": "Window"
+          },
+          "days": {
+            "type": "integer",
+            "title": "Days"
+          },
+          "method": {
+            "type": "string",
+            "enum": [
+              "historical",
+              "shrunk",
+              "shrunk-lw"
+            ],
+            "title": "Method"
+          },
+          "shrinkage": {
+            "type": "number",
+            "title": "Shrinkage"
+          },
+          "excluded": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Excluded"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          }
+        },
+        "type": "object",
+        "required": [
+          "market",
+          "snapshot",
+          "window",
+          "days",
+          "method",
+          "shrinkage",
+          "excluded",
+          "currency"
+        ],
+        "title": "Estimation",
+        "description": "How the expected returns and risks were estimated."
+      },
+      "Frontier": {
+        "properties": {
+          "continuous": {
+            "items": {
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array",
+              "maxItems": 2,
+              "minItems": 2
+            },
+            "type": "array",
+            "title": "Continuous"
+          },
+          "discrete": {
+            "items": {
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array",
+              "maxItems": 2,
+              "minItems": 2
+            },
+            "type": "array",
+            "title": "Discrete"
+          },
+          "picks": {
+            "items": {
+              "$ref": "#/components/schemas/Pick"
+            },
+            "type": "array",
+            "title": "Picks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "continuous",
+          "discrete",
+          "picks"
+        ],
+        "title": "Frontier"
+      },
+      "FullResult": {
+        "properties": {
+          "quantum": {
+            "$ref": "#/components/schemas/QuantumResult"
+          },
+          "report_card": {
+            "items": {
+              "$ref": "#/components/schemas/ReportRow"
+            },
+            "type": "array",
+            "title": "Report Card"
+          },
+          "frontier": {
+            "$ref": "#/components/schemas/Frontier"
+          },
+          "backtest": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Backtest"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "pruning": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/PruningRow"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pruning"
+          },
+          "verdict": {
+            "type": "string",
+            "title": "Verdict"
+          },
+          "optimal": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Optimal"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "dataset": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Dataset"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "result_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Id"
+          },
+          "estimation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "costs": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CostInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "allocations": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/Allocation"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Allocations"
+          },
+          "request": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OptimiseRequest"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "stocks": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/StockInfo"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stocks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "quantum",
+          "report_card",
+          "frontier",
+          "verdict"
+        ],
+        "title": "FullResult"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HardwareCheck": {
+        "properties": {
+          "backend": {
+            "type": "string",
+            "title": "Backend"
+          },
+          "job_id": {
+            "type": "string",
+            "title": "Job Id"
+          },
+          "local": {
+            "type": "boolean",
+            "title": "Local"
+          },
+          "two_qubit_gates": {
+            "type": "integer",
+            "title": "Two Qubit Gates"
+          },
+          "comparison": {
+            "$ref": "#/components/schemas/NoiseComparison"
+          }
+        },
+        "type": "object",
+        "required": [
+          "backend",
+          "job_id",
+          "local",
+          "two_qubit_gates",
+          "comparison"
+        ],
+        "title": "HardwareCheck",
+        "description": "A tuned circuit run on IBM hardware (or a fake chip in Runtime's local mode), graded like a noisy run."
+      },
+      "HardwareRequest": {
+        "properties": {
+          "market": {
+            "type": "string",
+            "title": "Market",
+            "default": "nifty50"
+          },
+          "tickers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tickers"
+          },
+          "settings": {
+            "$ref": "#/components/schemas/Settings"
+          },
+          "backend": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Backend"
+          },
+          "estimator": {
+            "type": "string",
+            "enum": [
+              "historical",
+              "shrunk",
+              "shrunk-lw"
+            ],
+            "title": "Estimator",
+            "default": "shrunk-lw"
+          },
+          "window_years": {
+            "type": "number",
+            "maximum": 10.0,
+            "minimum": 1.0,
+            "title": "Window Years",
+            "default": 3.0
+          }
+        },
+        "type": "object",
+        "required": [
+          "tickers",
+          "settings"
+        ],
+        "title": "HardwareRequest",
+        "description": "POST /admin/hardware: run a small tuned circuit on IBM hardware (or a fake chip with \"fake:<name>\")."
+      },
+      "Holding": {
+        "properties": {
+          "ticker": {
+            "type": "string",
+            "title": "Ticker"
+          },
+          "shares": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Shares"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ticker",
+          "shares"
+        ],
+        "title": "Holding"
+      },
+      "JobCreated": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "title": "Job Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "job_id"
+        ],
+        "title": "JobCreated"
+      },
+      "JobStatus": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "done",
+              "error",
+              "cancelled"
+            ],
+            "title": "Status"
+          },
+          "progress": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Progress"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "result": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FullResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "optimise",
+              "backtest",
+              "hardware"
+            ],
+            "title": "Kind",
+            "default": "optimise"
+          },
+          "backtest": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BacktestResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "hardware": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HardwareCheck"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cached": {
+            "type": "boolean",
+            "title": "Cached",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "JobStatus"
+      },
+      "Market": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "benchmark": {
+            "type": "string",
+            "title": "Benchmark"
+          },
+          "num_stocks": {
+            "type": "integer",
+            "title": "Num Stocks"
+          },
+          "snapshot": {
+            "type": "string",
+            "title": "Snapshot"
+          },
+          "prices_as_of": {
+            "type": "string",
+            "title": "Prices As Of"
+          },
+          "risk_free": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Free"
+          },
+          "risk_free_source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Free Source"
+          },
+          "cost_model": {
+            "type": "string",
+            "title": "Cost Model"
+          },
+          "list_source": {
+            "type": "string",
+            "title": "List Source"
+          },
+          "list_as_of": {
+            "type": "string",
+            "title": "List As Of"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "country",
+          "currency",
+          "benchmark",
+          "num_stocks",
+          "snapshot",
+          "prices_as_of",
+          "cost_model",
+          "list_source",
+          "list_as_of"
+        ],
+        "title": "Market",
+        "description": "GET /markets: one stock market the website can optimise over."
+      },
+      "MarketList": {
+        "properties": {
+          "markets": {
+            "items": {
+              "$ref": "#/components/schemas/Market"
+            },
+            "type": "array",
+            "title": "Markets"
+          }
+        },
+        "type": "object",
+        "required": [
+          "markets"
+        ],
+        "title": "MarketList"
+      },
+      "MarketStatus": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "stocks": {
+            "type": "integer",
+            "title": "Stocks"
+          },
+          "usable": {
+            "type": "integer",
+            "title": "Usable"
+          },
+          "prices_as_of": {
+            "type": "string",
+            "title": "Prices As Of"
+          },
+          "problems": {
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Problems"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "stocks",
+          "usable",
+          "prices_as_of",
+          "problems"
+        ],
+        "title": "MarketStatus"
+      },
+      "NoiseComparison": {
+        "properties": {
+          "chip": {
+            "type": "string",
+            "title": "Chip"
+          },
+          "ideal_p_optimal": {
+            "type": "number",
+            "title": "Ideal P Optimal"
+          },
+          "noisy_p_optimal": {
+            "type": "number",
+            "title": "Noisy P Optimal"
+          },
+          "ideal_approx_ratio": {
+            "type": "number",
+            "title": "Ideal Approx Ratio"
+          },
+          "noisy_approx_ratio": {
+            "type": "number",
+            "title": "Noisy Approx Ratio"
+          },
+          "ideal_feasible_rate": {
+            "type": "number",
+            "title": "Ideal Feasible Rate"
+          },
+          "noisy_feasible_rate": {
+            "type": "number",
+            "title": "Noisy Feasible Rate"
+          },
+          "postselected_share": {
+            "type": "number",
+            "title": "Postselected Share"
+          },
+          "postselected_p_optimal": {
+            "type": "number",
+            "title": "Postselected P Optimal"
+          },
+          "postselected_approx_ratio": {
+            "type": "number",
+            "title": "Postselected Approx Ratio"
+          },
+          "postselected_feasible_rate": {
+            "type": "number",
+            "title": "Postselected Feasible Rate"
+          },
+          "readout_error": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Readout Error"
+          },
+          "mitigated_p_optimal": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mitigated P Optimal"
+          },
+          "mitigated_approx_ratio": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mitigated Approx Ratio"
+          },
+          "mitigated_feasible_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mitigated Feasible Rate"
+          },
+          "mitigated_postselected_p_optimal": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mitigated Postselected P Optimal"
+          },
+          "mitigated_postselected_approx_ratio": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mitigated Postselected Approx Ratio"
+          },
+          "mitigated_postselected_feasible_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mitigated Postselected Feasible Rate"
+          }
+        },
+        "type": "object",
+        "required": [
+          "chip",
+          "ideal_p_optimal",
+          "noisy_p_optimal",
+          "ideal_approx_ratio",
+          "noisy_approx_ratio",
+          "ideal_feasible_rate",
+          "noisy_feasible_rate",
+          "postselected_share",
+          "postselected_p_optimal",
+          "postselected_approx_ratio",
+          "postselected_feasible_rate"
+        ],
+        "title": "NoiseComparison",
+        "description": "Same quality numbers on the perfect simulator and the fake IBM chip.\n`postselected_*` grade only the noisy shots that hold exactly K stocks; `postselected_share` is how many did.\n`mitigated_*` (when readout mitigation is on) undo the measured readout errors first; `readout_error` is the\naverage chance a qubit was misread in calibration."
+      },
+      "Optimal": {
+        "properties": {
+          "best": {
+            "$ref": "#/components/schemas/Portfolio"
+          },
+          "best_is_exact": {
+            "type": "boolean",
+            "title": "Best Is Exact"
+          },
+          "best_found_by": {
+            "type": "string",
+            "title": "Best Found By"
+          },
+          "shortlist_best": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Portfolio"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "num_valid_shortlist": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Num Valid Shortlist"
+          },
+          "shortlisting_gap": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shortlisting Gap"
+          },
+          "relaxation_lower_bound": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Relaxation Lower Bound"
+          },
+          "num_valid": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Num Valid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "best",
+          "best_is_exact",
+          "best_found_by"
+        ],
+        "title": "Optimal",
+        "description": "What is known about the best portfolio, so every method can be judged against it."
+      },
+      "OptimiseRequest": {
+        "properties": {
+          "tickers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tickers",
+            "description": "Stocks to choose from; empty means the whole market"
+          },
+          "market": {
+            "type": "string",
+            "title": "Market",
+            "default": "nifty50"
+          },
+          "settings": {
+            "$ref": "#/components/schemas/Settings"
+          },
+          "cash": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Cash",
+            "description": "Money to invest, in the market's currency",
+            "default": 1000000.0
+          },
+          "holdings": {
+            "items": {
+              "$ref": "#/components/schemas/Holding"
+            },
+            "type": "array",
+            "title": "Holdings",
+            "description": "Shares already owned"
+          },
+          "estimator": {
+            "type": "string",
+            "enum": [
+              "historical",
+              "shrunk",
+              "shrunk-lw"
+            ],
+            "title": "Estimator",
+            "default": "shrunk-lw"
+          },
+          "window_years": {
+            "type": "number",
+            "maximum": 10.0,
+            "minimum": 1.0,
+            "title": "Window Years",
+            "description": "Years of past prices used for the estimates",
+            "default": 3.0
+          },
+          "horizon_years": {
+            "type": "number",
+            "maximum": 10.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Horizon Years",
+            "description": "How long the portfolio is meant to be held",
+            "default": 1.0
+          },
+          "as_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "As Of",
+            "description": "Use only prices up to this date (YYYY-MM-DD); default: latest"
+          }
+        },
+        "type": "object",
+        "required": [
+          "settings"
+        ],
+        "title": "OptimiseRequest"
+      },
+      "Order": {
+        "properties": {
+          "ticker": {
+            "type": "string",
+            "title": "Ticker"
+          },
+          "side": {
+            "type": "string",
+            "enum": [
+              "buy",
+              "sell"
+            ],
+            "title": "Side"
+          },
+          "shares": {
+            "type": "integer",
+            "title": "Shares"
+          },
+          "price": {
+            "type": "number",
+            "title": "Price"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value"
+          },
+          "costs": {
+            "items": {
+              "$ref": "#/components/schemas/CostLine"
+            },
+            "type": "array",
+            "title": "Costs"
+          },
+          "cost": {
+            "type": "number",
+            "title": "Cost"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ticker",
+          "side",
+          "shares",
+          "price",
+          "value",
+          "costs",
+          "cost"
+        ],
+        "title": "Order"
+      },
+      "Performance": {
+        "properties": {
+          "cagr": {
+            "type": "number",
+            "title": "Cagr"
+          },
+          "volatility": {
+            "type": "number",
+            "title": "Volatility"
+          },
+          "sharpe": {
+            "type": "number",
+            "title": "Sharpe"
+          },
+          "sortino": {
+            "type": "number",
+            "title": "Sortino"
+          },
+          "max_drawdown": {
+            "type": "number",
+            "title": "Max Drawdown"
+          },
+          "drawdown_start": {
+            "type": "string",
+            "title": "Drawdown Start"
+          },
+          "drawdown_bottom": {
+            "type": "string",
+            "title": "Drawdown Bottom"
+          },
+          "var_95": {
+            "type": "number",
+            "title": "Var 95"
+          },
+          "cvar_95": {
+            "type": "number",
+            "title": "Cvar 95"
+          },
+          "beta": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Beta"
+          },
+          "tracking_error": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tracking Error"
+          },
+          "days": {
+            "type": "integer",
+            "title": "Days"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cagr",
+          "volatility",
+          "sharpe",
+          "sortino",
+          "max_drawdown",
+          "drawdown_start",
+          "drawdown_bottom",
+          "var_95",
+          "cvar_95",
+          "days"
+        ],
+        "title": "Performance"
+      },
+      "Pick": {
+        "properties": {
+          "solver": {
+            "type": "string",
+            "title": "Solver"
+          },
+          "risk": {
+            "type": "number",
+            "title": "Risk"
+          },
+          "ret": {
+            "type": "number",
+            "title": "Ret"
+          }
+        },
+        "type": "object",
+        "required": [
+          "solver",
+          "risk",
+          "ret"
+        ],
+        "title": "Pick"
+      },
+      "Portfolio": {
+        "properties": {
+          "stocks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Stocks"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "expected_return": {
+            "type": "number",
+            "title": "Expected Return"
+          },
+          "risk": {
+            "type": "number",
+            "title": "Risk"
+          }
+        },
+        "type": "object",
+        "required": [
+          "stocks",
+          "score",
+          "expected_return",
+          "risk"
+        ],
+        "title": "Portfolio"
+      },
+      "Progress": {
+        "properties": {
+          "stage": {
+            "type": "string",
+            "title": "Stage"
+          },
+          "step": {
+            "type": "integer",
+            "title": "Step"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "elapsed_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Elapsed S"
+          }
+        },
+        "type": "object",
+        "required": [
+          "stage",
+          "step",
+          "total"
+        ],
+        "title": "Progress"
+      },
+      "PruningRow": {
+        "properties": {
+          "kept": {
+            "type": "number",
+            "title": "Kept"
+          },
+          "gates": {
+            "type": "integer",
+            "title": "Gates"
+          },
+          "ideal": {
+            "type": "number",
+            "title": "Ideal"
+          },
+          "noisy": {
+            "type": "number",
+            "title": "Noisy"
+          },
+          "noisy_postselected": {
+            "type": "number",
+            "title": "Noisy Postselected"
+          }
+        },
+        "type": "object",
+        "required": [
+          "kept",
+          "gates",
+          "ideal",
+          "noisy",
+          "noisy_postselected"
+        ],
+        "title": "PruningRow",
+        "description": "qapital.core.schemas.PruningPoint as the website receives it:\nlift over random legal guessing at each level of pruning."
+      },
+      "QuantumResult": {
+        "properties": {
+          "chosen": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Chosen"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "expected_return": {
+            "type": "number",
+            "title": "Expected Return"
+          },
+          "risk": {
+            "type": "number",
+            "title": "Risk"
+          },
+          "p_optimal": {
+            "type": "number",
+            "title": "P Optimal"
+          },
+          "feasible_rate": {
+            "type": "number",
+            "title": "Feasible Rate"
+          },
+          "lift_over_random": {
+            "type": "number",
+            "title": "Lift Over Random"
+          },
+          "approx_ratio": {
+            "type": "number",
+            "title": "Approx Ratio"
+          },
+          "num_qubits": {
+            "type": "integer",
+            "title": "Num Qubits"
+          },
+          "num_slack_qubits": {
+            "type": "integer",
+            "title": "Num Slack Qubits"
+          },
+          "two_qubit_gates": {
+            "type": "integer",
+            "title": "Two Qubit Gates"
+          },
+          "circuit_depth": {
+            "type": "integer",
+            "title": "Circuit Depth"
+          },
+          "convergence": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Convergence"
+          },
+          "top_samples": {
+            "items": {
+              "$ref": "#/components/schemas/SampledPortfolio"
+            },
+            "type": "array",
+            "title": "Top Samples"
+          },
+          "layer_probs": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Layer Probs"
+          },
+          "layer_labels": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Layer Labels"
+          },
+          "noise": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NoiseComparison"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "shortlist": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shortlist"
+          },
+          "warm_start_alone": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StartQuality"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "chosen",
+          "score",
+          "expected_return",
+          "risk",
+          "p_optimal",
+          "feasible_rate",
+          "lift_over_random",
+          "approx_ratio",
+          "num_qubits",
+          "num_slack_qubits",
+          "two_qubit_gates",
+          "circuit_depth",
+          "convergence",
+          "top_samples",
+          "layer_probs",
+          "layer_labels"
+        ],
+        "title": "QuantumResult"
+      },
+      "Rebalancing": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date"
+          },
+          "chosen": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Chosen"
+          },
+          "weights": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Weights"
+          },
+          "turnover": {
+            "type": "number",
+            "title": "Turnover"
+          },
+          "costs": {
+            "type": "number",
+            "title": "Costs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "chosen",
+          "weights",
+          "turnover",
+          "costs"
+        ],
+        "title": "Rebalancing"
+      },
+      "ReportRow": {
+        "properties": {
+          "solver": {
+            "type": "string",
+            "enum": [
+              "QAOA",
+              "Brute force",
+              "Simulated annealing",
+              "Relaxation + rounding",
+              "Random guessing"
+            ],
+            "title": "Solver"
+          },
+          "found_best": {
+            "type": "boolean",
+            "title": "Found Best"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "runtime_s": {
+            "type": "number",
+            "title": "Runtime S"
+          },
+          "hit_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hit Rate"
+          },
+          "chosen": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chosen"
+          },
+          "expected_return": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Return"
+          },
+          "risk": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk"
+          },
+          "universe": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "full",
+                  "shortlist"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Universe"
+          }
+        },
+        "type": "object",
+        "required": [
+          "solver",
+          "found_best",
+          "score",
+          "runtime_s"
+        ],
+        "title": "ReportRow"
+      },
+      "SampledPortfolio": {
+        "properties": {
+          "stocks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Stocks"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "valid": {
+            "type": "boolean",
+            "title": "Valid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "stocks",
+          "count",
+          "score",
+          "valid"
+        ],
+        "title": "SampledPortfolio"
+      },
+      "Settings": {
+        "properties": {
+          "k": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "K",
+            "description": "Number of stocks to pick"
+          },
+          "risk_aversion": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Risk Aversion",
+            "description": "Risk slider (q)",
+            "default": 1.0
+          },
+          "sector_cap": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sector Cap",
+            "description": "Max stocks per sector"
+          },
+          "pairs_kept": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.25,
+            "title": "Pairs Kept",
+            "description": "Accuracy vs noise slider",
+            "default": 1.0
+          },
+          "depth": {
+            "type": "integer",
+            "maximum": 4.0,
+            "minimum": 1.0,
+            "title": "Depth",
+            "description": "QAOA layers (p)",
+            "default": 2
+          },
+          "optimiser": {
+            "type": "string",
+            "enum": [
+              "COBYLA",
+              "SPSA"
+            ],
+            "title": "Optimiser",
+            "default": "COBYLA"
+          },
+          "mixer": {
+            "type": "string",
+            "enum": [
+              "standard",
+              "xy",
+              "warm"
+            ],
+            "title": "Mixer",
+            "description": "standard (penalty), xy (keeps K; ours), warm (penalty started from the relaxed solution)",
+            "default": "xy"
+          },
+          "cvar_alpha": {
+            "type": "number",
+            "maximum": 1.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Cvar Alpha",
+            "description": "Tune for the best α-fraction of outcomes (CVaR); 1 = the plain average",
+            "default": 0.25
+          },
+          "noisy": {
+            "type": "boolean",
+            "title": "Noisy",
+            "default": false
+          },
+          "mitigate_readout": {
+            "type": "boolean",
+            "title": "Mitigate Readout",
+            "description": "On noisy runs, measure and undo readout errors",
+            "default": true
+          },
+          "run_pruning_study": {
+            "type": "boolean",
+            "title": "Run Pruning Study",
+            "default": false
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed",
+            "default": 42
+          }
+        },
+        "type": "object",
+        "required": [
+          "k"
+        ],
+        "title": "Settings",
+        "description": "What the user chose on the website."
+      },
+      "SnapshotInfo": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "start": {
+            "type": "string",
+            "title": "Start"
+          },
+          "end": {
+            "type": "string",
+            "title": "End"
+          },
+          "price_field": {
+            "type": "string",
+            "title": "Price Field"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "created_at",
+          "start",
+          "end",
+          "price_field"
+        ],
+        "title": "SnapshotInfo"
+      },
+      "StartQuality": {
+        "properties": {
+          "p_optimal": {
+            "type": "number",
+            "title": "P Optimal"
+          },
+          "feasible_rate": {
+            "type": "number",
+            "title": "Feasible Rate"
+          },
+          "lift_over_random": {
+            "type": "number",
+            "title": "Lift Over Random"
+          }
+        },
+        "type": "object",
+        "required": [
+          "p_optimal",
+          "feasible_rate",
+          "lift_over_random"
+        ],
+        "title": "StartQuality",
+        "description": "What a circuit's starting state alone gives, before any quantum layer (exact chances)."
+      },
+      "Stats": {
+        "properties": {
+          "ret": {
+            "type": "number",
+            "title": "Ret"
+          },
+          "volatility": {
+            "type": "number",
+            "title": "Volatility"
+          },
+          "sharpe": {
+            "type": "number",
+            "title": "Sharpe"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ret",
+          "volatility",
+          "sharpe"
+        ],
+        "title": "Stats"
+      },
+      "StockInfo": {
+        "properties": {
+          "ticker": {
+            "type": "string",
+            "title": "Ticker"
+          },
+          "sector": {
+            "type": "string",
+            "title": "Sector"
+          },
+          "expected_return": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Return"
+          },
+          "volatility": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Volatility"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price"
+          },
+          "excluded": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Excluded"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ticker",
+          "sector"
+        ],
+        "title": "StockInfo"
+      },
+      "StockList": {
+        "properties": {
+          "market": {
+            "type": "string",
+            "title": "Market"
+          },
+          "stocks": {
+            "items": {
+              "$ref": "#/components/schemas/StockInfo"
+            },
+            "type": "array",
+            "title": "Stocks"
+          },
+          "estimation_window": {
+            "anyOf": [
+              {
+                "prefixItems": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "type": "array",
+                "maxItems": 2,
+                "minItems": 2
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Estimation Window"
+          },
+          "fee": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fee"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          },
+          "snapshot": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Snapshot"
+          },
+          "estimator": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "historical",
+                  "shrunk",
+                  "shrunk-lw"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Estimator"
+          }
+        },
+        "type": "object",
+        "required": [
+          "market",
+          "stocks"
+        ],
+        "title": "StockList",
+        "description": "GET /stocks?market=… and GET /markets/{id}/stocks"
+      },
+      "StrategyRun": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "values": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Values"
+          },
+          "performance": {
+            "$ref": "#/components/schemas/Performance"
+          },
+          "costs": {
+            "type": "number",
+            "title": "Costs"
+          },
+          "rebalances": {
+            "items": {
+              "$ref": "#/components/schemas/Rebalancing"
+            },
+            "type": "array",
+            "title": "Rebalances"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "values",
+          "performance",
+          "costs",
+          "rebalances"
+        ],
+        "title": "StrategyRun"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

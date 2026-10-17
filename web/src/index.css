@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+/* Editorial research report: warm paper and deep-navy ink, navy opening bands, one signal orange for the
+   quantum pick. Chart colours come from the colour-blind-checked dataviz palette. */
+:root {
+  color-scheme: light;
+  --paper: #f7f5f0;
+  --paper-2: #efebe3;
+  --ink: #10192b;
+  --ink-2: #4a5263;
+  --muted: #858b96;
+  --rule: #dcd6cb;
+  --rule-strong: #b9b1a3;
+  --navy: #0c1a33;
+  --navy-ink: #eef1f7;
+  --navy-muted: #9aa7bf;
+  --accent: #2b59c3;
+  --signal: #e0612b;
+  --good: #12733f;
+  --bad: #b42318;
+  --warn: #8a5a00;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --neutral: #c3c2b7;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --paper: #0b111c;
+    --paper-2: #131b29;
+    --ink: #ece8df;
+    --ink-2: #aeb4bf;
+    --muted: #7d8592;
+    --rule: #232c3b;
+    --rule-strong: #3a4659;
+    --navy: #060b14;
+    --navy-ink: #eef1f7;
+    --navy-muted: #8d9ab2;
+    --accent: #8aa9f2;
+    --signal: #f07a45;
+    --good: #3bc27a;
+    --bad: #f07a70;
+    --warn: #e3b341;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --neutral: #5f5e5a;
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-navy: var(--navy);
+  --color-navy-ink: var(--navy-ink);
+  --color-navy-muted: var(--navy-muted);
+  --color-accent: var(--accent);
+  --color-signal: var(--signal);
+  --color-good: var(--good);
+  --color-bad: var(--bad);
+  --color-warn: var(--warn);
+  --color-series-1: var(--series-1);
+  --color-series-2: var(--series-2);
+  --font-sans: "Libre Franklin", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--signal) 30%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
