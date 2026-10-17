@@ -1,0 +1,6 @@
+# Same line endings everywhere (Windows, Linux CI, Docker)
+* text=auto eol=lf
+*.ipynb text eol=lf
+*.png binary
+*.woff2 binary
+*.docx binary

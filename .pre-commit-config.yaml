@@ -1,0 +1,41 @@
+# With the project venv active: pre-commit install (once); the hooks then run on every commit.
+# Every hook is "local": it runs the tools already installed in the project venv, so nothing else gets installed.
+exclude: ^(web/public/|research/results/|tests/fixtures/|research/notebooks/)
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check
+        entry: ruff check --fix
+        language: system
+        types_or: [python, pyi]
+      - id: ruff-format
+        name: ruff format
+        entry: ruff format
+        language: system
+        types_or: [python, pyi]
+      - id: mypy
+        name: mypy
+        entry: mypy
+        language: system
+        pass_filenames: false
+        files: ^src/
+      - id: end-of-file-fixer
+        name: end of files
+        entry: end-of-file-fixer
+        language: system
+        types: [text]
+      - id: trailing-whitespace
+        name: trailing whitespace
+        entry: trailing-whitespace-fixer
+        language: system
+        types: [text]
+      - id: check-added-large-files
+        name: no large files
+        entry: check-added-large-files --maxkb=2048
+        language: system
+      - id: check-merge-conflict
+        name: no merge conflict markers
+        entry: check-merge-conflict
+        language: system
+        types: [text]

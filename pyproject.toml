@@ -1,0 +1,53 @@
+[project]
+name = "qapital"
+version = "0.2.0.dev0"
+description = "Quantum-assisted portfolio optimisation: QAOA with constraint-preserving mixers, benchmarked honestly against classical methods."
+requires-python = ">=3.12"
+dependencies = [
+    "numpy==2.5.3",
+    "scipy==1.18.1",
+    "pandas==3.0.6",
+    "pydantic==2.14.0",
+    "qiskit==2.5.2",
+    "qiskit-aer==0.17.2",
+    "qiskit-ibm-runtime==0.50.0",   # fake IBM chips (gate counts, noise); real hardware is optional
+    "cvxpy==1.9.3",                 # relaxation and efficient frontier
+    "scikit-learn==1.9.1",          # Ledoit-Wolf covariance
+    "pyarrow==26.0.0",              # price snapshots (Parquet)
+    "orjson==3.10.7; python_full_version == '3.13.0rc1'",   # newer builds fail to load on that pre-release
+]
+
+[project.optional-dependencies]
+pipeline = ["yfinance==1.7.0", "lxml==6.1.3"]
+api = ["fastapi==0.143.0", "uvicorn==0.54.0", "sqlalchemy==2.1.4", "psycopg[binary]==3.3.6"]   # psycopg: hosted Postgres
+dev = ["httpx==0.28.1", "pytest==9.1.1", "pytest-cov==7.1.0", "ruff==0.17.0", "mypy==2.4.0", "pre-commit==4.7.0", "pre-commit-hooks==6.0.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/qapital"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["web"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003"]   # Greek letters and typographic quotes in docs and labels are intended
+
+[tool.ruff.lint.isort]
+known-first-party = ["qapital", "scripts", "research"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["src/qapital"]
+mypy_path = "src"
+ignore_missing_imports = true
+warn_unused_ignores = true

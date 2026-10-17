@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.ipynb_checkpoints/
+
+# Web
+web/node_modules/
+web/dist/
+web/.env.local
+
+# Data that isn't ours to publish (the hackathon's 48-stock returns file); replaced by the pipeline's snapshots
+data/legacy/
+
+# Secrets and local settings
+.env
+*.env.local
+
+# Media and archives
+*.mp4
+*.zip
+
+# Price snapshots are rebuilt nightly and published as release files, not kept in git history
+data/snapshots/
+
+# The API's local result store (SQLite)
+data/qapital.db
