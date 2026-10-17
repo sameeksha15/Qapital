@@ -31,6 +31,7 @@ packages = ["src/qapital"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]   # the tests import scripts/ and research/ from the repo root
 addopts = "-q"
 
 [tool.ruff]
