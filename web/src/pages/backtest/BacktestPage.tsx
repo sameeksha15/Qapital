@@ -116,7 +116,7 @@ export function BacktestPage() {
             <div className="mt-6 space-y-4">
               {problem && <Note tone="bad">{problem}</Note>}
               {error && <Note tone="bad" title="The backtest didn't start">{error}</Note>}
-              {state !== "live" && <Note tone="warn" title="Saved backtests only, for now">{state === "waking" ? "The live engine is waking up." : "The live engine isn't reachable."} These saved backtests are real runs:</Note>}
+              {state !== "live" && <Note tone="warn" title="Saved backtests only, for now">{state === "waking" ? "The live engine is starting." : "The live engine isn't reachable."} These saved backtests are real runs:</Note>}
             </div>
             <div className="mt-6">
               <SavedRuns kind="backtest" compact />

@@ -1,0 +1,5 @@
+# HTTPS for the API's address (API_HOST in .env, e.g. 152-67-12-34.sslip.io); certificates are fetched automatically.
+# Live progress uses server-sent events, which Caddy passes through without buffering.
+{$API_HOST} {
+	reverse_proxy api:7860
+}

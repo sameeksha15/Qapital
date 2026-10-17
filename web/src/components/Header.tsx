@@ -16,8 +16,8 @@ export const PAGES = [
 const STATUS: Record<ConnectionState, { label: string; dot: string; pulse: boolean; title: string }> = {
   checking: { label: "Connecting", dot: "bg-navy-muted", pulse: true, title: "Asking the live engine whether it is up." },
   live: { label: "Live engine", dot: "bg-emerald-400", pulse: true, title: "Runs start on the live engine." },
-  waking: { label: "Engine waking up", dot: "bg-amber-400", pulse: true,
-    title: "The free server sleeps when nobody uses it; it takes up to a minute or two to wake. Saved runs are shown meanwhile." },
+  waking: { label: "Engine starting", dot: "bg-amber-400", pulse: true,
+    title: "The live engine isn't answering yet (it may be restarting after an update). Saved runs are shown meanwhile." },
   saved: { label: "Saved runs", dot: "bg-navy-muted", pulse: false, title: "The live engine isn't reachable; showing saved runs." },
 };
 

@@ -4,7 +4,7 @@ import { ApiError } from "./fetchJson";
 import type { Estimator, JobStatus } from "./types";
 
 // Every read the pages make, cached by TanStack Query. Keys include the mode, so data refreshes when the live API
-// wakes up. Nothing is fetched while the connection is still being checked, so the page doesn't flash saved data.
+// comes up. Nothing is fetched while the connection is still being checked, so the page doesn't flash saved data.
 
 export function useMarkets() {
   const { api, state } = useConnection();

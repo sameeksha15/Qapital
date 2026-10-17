@@ -212,7 +212,7 @@ export function OptimisePage() {
             <div className="mt-6 space-y-4">
               {problem && <Note tone="bad">{problem}</Note>}
               {error && <Note tone="bad" title="The run didn't start">{error}</Note>}
-              {state === "waking" && <Note tone="warn" title="The live engine is waking up">The free server sleeps when nobody uses it and takes a minute or two to start. Meanwhile, open a saved run below.</Note>}
+              {state === "waking" && <Note tone="warn" title="The live engine is starting">It isn't answering yet, usually because it is restarting after an update; this page connects by itself when it's back. Meanwhile, open a saved run below.</Note>}
               {state === "saved" && <Note title="Saved runs only">The live engine isn't reachable right now. These saved runs are real results on the same prices.</Note>}
             </div>
             <div className="mt-8">

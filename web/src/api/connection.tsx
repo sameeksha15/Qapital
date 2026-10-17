@@ -6,7 +6,7 @@ import { createLiveApi, createSavedApi, type LiveApi, type ReadApi } from "./cli
  * Which API the site is using:
  * - "checking": asking the live API whether it is up (a moment, on first load)
  * - "live":     the live API answers; runs can start
- * - "waking":   the live API didn't answer yet (free hosting sleeps when idle); saved runs are shown meanwhile
+ * - "waking":   the live API didn't answer yet (starting or restarting); saved runs are shown meanwhile
  * - "saved":    no live API is configured, or it stayed asleep; saved runs only
  */
 export type ConnectionState = "checking" | "live" | "waking" | "saved";

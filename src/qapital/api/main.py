@@ -5,7 +5,7 @@ Settings come from environment variables:
   DATABASE_URL           where results are kept (default: SQLite file data/qapital.db; Postgres URLs work too)
   QAPITAL_CORS_ORIGINS   websites allowed to call the API, comma-separated (default: the local dev server)
   QAPITAL_WORKERS        runs processed at the same time (default 2)
-  QAPITAL_TRUST_PROXY    "1" behind a proxy that sets X-Forwarded-For (as on Hugging Face Spaces)
+  QAPITAL_TRUST_PROXY    "1" behind a proxy that sets X-Forwarded-For (as Caddy does in deploy/oracle)
   QAPITAL_ADMIN_KEY      enables POST /admin/hardware for requests carrying it in X-Admin-Key
   QAPITAL_SNAPSHOT_REPO  "owner/repo" whose "data" release holds the nightly price snapshots; fetched at start-up
                          and every few hours (unset: use whatever is already in data/snapshots/)

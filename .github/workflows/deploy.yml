@@ -1,7 +1,7 @@
 name: Deploy API
 
-# After CI passes on main, push the API to its Hugging Face Space (a Docker Space) and wait until it answers.
-# Needs: secret HF_TOKEN (a Hugging Face token with write access) and variable HF_SPACE ("owner/space-name").
+# After CI passes on main, update the API on the Oracle Cloud VM (deploy/oracle) and wait until it answers.
+# Needs: secret ORACLE_SSH_KEY, variables ORACLE_HOST, ORACLE_USER and API_HOST (all printed by deploy/oracle/setup.sh).
 # The website deploys itself: Vercel watches the same branch (web/vercel.json).
 on:
   workflow_run:
@@ -12,42 +12,31 @@ on:
 
 concurrency:
   group: deploy-api
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  space:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+  vm:
+    if: >-
+      vars.ORACLE_HOST != '' &&
+      (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Assemble the Space (only what the API needs)
-        run: |
-          mkdir -p space/data
-          cp -r Dockerfile .dockerignore pyproject.toml uv.lock src space/
-          cp -r data/universes data/costs space/data/
-          cp deploy/huggingface/README.md space/README.md
-      - name: Push to Hugging Face
+      - name: Pull and rebuild on the VM
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-          HF_SPACE: ${{ vars.HF_SPACE }}
+          SSH_KEY: ${{ secrets.ORACLE_SSH_KEY }}
+          HOST: ${{ vars.ORACLE_HOST }}
+          USER: ${{ vars.ORACLE_USER }}
         run: |
-          cd space
-          git init -q -b main
-          git config user.name "qapital deploy"
-          git config user.email "deploy@users.noreply.github.com"
-          git add -A
-          git commit -q -m "Deploy ${GITHUB_SHA::7}"
-          owner="${HF_SPACE%%/*}"
-          git push -f "https://${owner}:${HF_TOKEN}@huggingface.co/spaces/${HF_SPACE}" main
-      - name: Wait until the live API answers with prices
+          install -m 600 /dev/null key && printf '%s\n' "$SSH_KEY" > key
+          ssh -i key -o StrictHostKeyChecking=accept-new "$USER@$HOST" \
+            'cd ~/Qapital && git pull --ff-only && sudo docker compose -f deploy/oracle/compose.yml up -d --build && sudo docker image prune -f'
+      - name: Wait until the API answers with prices
         env:
-          HF_SPACE: ${{ vars.HF_SPACE }}
+          API_HOST: ${{ vars.API_HOST }}
         run: |
-          host=$(echo "$HF_SPACE" | tr '[:upper:]' '[:lower:]' | sed 's#/#-#; s#[._]#-#g')
-          url="https://${host}.hf.space/health"
-          for i in $(seq 1 60); do
-            body=$(curl -fsS "$url" || true)
+          for i in $(seq 1 40); do
+            body=$(curl -fsS "https://$API_HOST/health" || true)
             if echo "$body" | grep -q '"snapshot":"20'; then echo "live: $body"; exit 0; fi
-            sleep 20
+            sleep 15
           done
-          echo "The API didn't come up at $url within 20 minutes (last answer: $body)"; exit 1
+          echo "The API didn't answer at https://$API_HOST/health within 10 minutes (last answer: $body)"; exit 1

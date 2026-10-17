@@ -1,0 +1,32 @@
+# The API on one VM: the Qapital container behind Caddy, which serves HTTPS for API_HOST and renews its certificate.
+# Settings live in .env next to this file (written by setup.sh, never committed).
+#   sudo docker compose -f deploy/oracle/compose.yml up -d --build
+services:
+  api:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      QAPITAL_WORKERS: "3"   # runs at the same time; the VM has 4 cores
+    expose:
+      - "7860"
+
+  caddy:
+    image: caddy:2.11.6
+    restart: unless-stopped
+    depends_on:
+      - api
+    env_file: .env
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:
