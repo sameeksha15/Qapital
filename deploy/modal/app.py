@@ -11,7 +11,8 @@ from pathlib import Path
 
 import modal
 
-ROOT = Path(__file__).resolve().parents[2]
+# The repo folder, for building the image; inside the container this file sits at /root/app.py with no repo around it.
+ROOT = Path(__file__).resolve().parents[2] if modal.is_local() else Path("/")
 DATA = "/root/data"
 
 image = (
