@@ -6,7 +6,20 @@ Pick a few stocks out of the NIFTY 50 or the S&P 100 with a quantum algorithm (Q
 how it compares with classical optimisers and blind guessing, what whole-share orders it would place with real trading
 costs, and how the strategy would have done since 2018.
 
-<!-- Live demo and screenshots are added once the site is deployed. -->
+**Try it: [qapital-dun.vercel.app](https://qapital-dun.vercel.app)** · API docs:
+[sameeksha15--qapital-api.modal.run/docs](https://sameeksha15--qapital-api.modal.run/docs)
+
+The engine sleeps when nobody is using it, so the first run after a quiet spell waits while it starts; the site shows
+saved runs meanwhile.
+
+![The optimiser: choose a market, your money and your rules](docs/screenshots/optimise.png)
+
+| | |
+|---|---|
+| ![A result: the quantum pick against the true best portfolio](docs/screenshots/result.png) | ![Every method scored on the same problem](docs/screenshots/compare.png) |
+| A result, honest when the circuit misses the best portfolio | Every method on the same problem, against the efficient frontier |
+| ![A walk-forward backtest since 2018](docs/screenshots/backtest.png) | ![Research: gates against quality for every circuit setting](docs/screenshots/research.png) |
+| A walk-forward backtest since 2018, after trading costs | Research: two-qubit gates against quality for every circuit |
 
 ## What it does
 
